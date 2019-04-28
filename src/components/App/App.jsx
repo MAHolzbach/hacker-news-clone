@@ -24,7 +24,6 @@ export default class App extends Component {
         })
         .then(() => {
           const storiesToFetch = this.state.storyIds.slice(0, 20);
-          const newStoryArray = [];
           const fetchStories = async () => {
             await storiesToFetch.forEach(storyId => {
               axios
@@ -32,8 +31,9 @@ export default class App extends Component {
                   `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`
                 )
                 .then(response => {
-                  newStoryArray.push(response.data);
-                  this.setState({ stories: newStoryArray });
+                  this.setState({
+                    stories: [...this.state.stories, response.data]
+                  });
                 });
             });
             this.setState({ fetchComplete: true });

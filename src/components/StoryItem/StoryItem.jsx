@@ -2,24 +2,24 @@ import React, { useState, useEffect, useContext } from "react";
 import { StoryContext } from "../App/App";
 
 const StoryItem = () => {
-  const stories = useContext(StoryContext);
-  const [localStoryState, setLocalStoryState] = useState([]);
-  console.log("STORIES CONTEXT:", stories);
+  const context = useContext(StoryContext);
   const renderHeadlines = () => {
-    console.log("STORIES STATE:", localStoryState);
-    console.log("HERE");
-    localStoryState.map(story => {
-      console.log("STORY:", story);
-      return <h2 key={story.id}>{story.title}</h2>;
+    console.log("STORIES CONTEXT:", context);
+    return context.storyIds.map(story => {
+      <p>STORY</p>;
     });
   };
-  useEffect(() => {
-    setLocalStoryState(stories);
-  }, [stories]);
-  useEffect(() => {
-    renderHeadlines();
-  }, [localStoryState]);
-  return <div>{renderHeadlines()}</div>;
+  // useEffect(() => {
+  //   console.log(context);
+  //   renderHeadlines();
+  // }, [context]);
+  return (
+    <div>
+      {context.storyIds.map(story => {
+        <p>STORY</p>;
+      })}
+    </div>
+  );
 };
 
 export default StoryItem;

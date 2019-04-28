@@ -3,23 +3,8 @@ import { StoryContext } from "../App/App";
 
 const StoryItem = () => {
   const context = useContext(StoryContext);
-  const renderHeadlines = () => {
-    console.log("STORIES CONTEXT:", context);
-    return context.storyIds.map(story => {
-      <p>STORY</p>;
-    });
-  };
-  // useEffect(() => {
-  //   console.log(context);
-  //   renderHeadlines();
-  // }, [context]);
-  return (
-    <div>
-      {context.storyIds.map(story => {
-        <p>STORY</p>;
-      })}
-    </div>
-  );
+  const stories = context.stories.map(story => <h3>{story.title}</h3>);
+  return <>{stories}</>;
 };
 
 export default StoryItem;

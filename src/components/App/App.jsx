@@ -24,8 +24,8 @@ export default class App extends Component {
         })
         .then(() => {
           const storiesToFetch = this.state.storyIds.slice(0, 20);
+          const newStoryArray = [];
           const fetchStories = async () => {
-            const newStoryArray = [];
             await storiesToFetch.forEach(storyId => {
               axios
                 .get(
@@ -33,12 +33,12 @@ export default class App extends Component {
                 )
                 .then(response => {
                   newStoryArray.push(response.data);
+                  this.setState({ stories: newStoryArray });
                 });
             });
-            this.setState({ stories: newStoryArray });
+            this.setState({ fetchComplete: true });
           };
           fetchStories();
-          this.setState({ fetchComplete: true });
         });
     };
     fetchStoryIds();

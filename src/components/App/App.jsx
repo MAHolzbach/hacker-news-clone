@@ -1,28 +1,64 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { Component } from "react";
 import axios from "axios";
+import Loader from "react-loader-spinner";
+import StoryItem from "../StoryItem/StoryItem";
 
-const App = () => {
-  const [stories, setStories] = useState([]);
+export const StoryContext = React.createContext(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const stories = await axios.get(
-        "https://hacker-news.firebaseio.com/v0/topstories.json"
-      );
-      setStories(stories.data);
+export default class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      stories: [],
+      storyIds: [],
+      fetchComplete: false
     };
-    fetchData();
-  }, []);
+  }
 
-  return (
-    <div>
-      {stories.length === 0 ? (
-        <p>Loading...</p>
-      ) : (
-        stories.map(story => <p>{story}</p>)
-      )}
-    </div>
-  );
-};
+  componentDidMount() {
+    const fetchStoryIds = async () => {
+      await axios
+        .get("https://hacker-news.firebaseio.com/v0/topstories.json")
+        .then(response => {
+          this.setState({ storyIds: response.data });
+        })
+        .then(() => {
+          const storiesToFetch = this.state.storyIds.slice(0, 30);
+          const fetchStories = async () => {
+            await storiesToFetch.forEach(storyId => {
+              axios
+                .get(
+                  `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`
+                )
+                .then(response => {
+                  this.setState({
+                    stories: [...this.state.stories, response.data]
+                  });
+                });
+            });
+            this.setState({ fetchComplete: true });
+          };
+          fetchStories();
+        });
+    };
+    fetchStoryIds();
+  }
 
-export default App;
+  render() {
+    console.log(this.state.stories);
+    return (
+      <>
+        <StoryContext.Provider value={this.state}>
+          <div>
+            {this.state.fetchComplete ? (
+              <StoryItem />
+            ) : (
+              <Loader type="Triangle" color="orange" height={80} width={80} />
+            )}
+          </div>
+        </StoryContext.Provider>
+      </>
+    );
+  }
+}

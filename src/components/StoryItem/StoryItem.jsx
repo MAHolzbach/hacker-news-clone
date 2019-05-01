@@ -4,7 +4,7 @@ import { StoryContext } from "../App/App";
 const StoryItem = () => {
   const context = useContext(StoryContext);
   const stories = context.stories.map(story => <h3>{story.title}</h3>);
-  return <>{stories}</>;
+  return <div className="story-div">{stories}</div>;
 };
 
 export default StoryItem;

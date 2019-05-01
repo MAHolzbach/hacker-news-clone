@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+// import Loader from "react-loader-spinner";
 import StoryItem from "../StoryItem/StoryItem";
 
 export const StoryContext = React.createContext(null);
@@ -23,7 +24,7 @@ export default class App extends Component {
           this.setState({ storyIds: response.data });
         })
         .then(() => {
-          const storiesToFetch = this.state.storyIds.slice(0, 20);
+          const storiesToFetch = this.state.storyIds.slice(0, 30);
           const fetchStories = async () => {
             await storiesToFetch.forEach(storyId => {
               axios
@@ -45,11 +46,17 @@ export default class App extends Component {
   }
 
   render() {
+    console.log(this.state.stories);
     return (
       <>
         <StoryContext.Provider value={this.state}>
           <div>
-            {this.state.fetchComplete ? <StoryItem /> : <p>Loading...</p>}
+            {this.state.fetchComplete ? (
+              <StoryItem />
+            ) : (
+              // <Loader type="Grid" color="#somecolor" height={80} width={80} />
+              <p>LOADING...</p>
+            )}
           </div>
         </StoryContext.Provider>
       </>

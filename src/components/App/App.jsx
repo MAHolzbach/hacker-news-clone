@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import Loader from "react-loader-spinner";
+import Loader from "react-loader-spinner";
 import StoryItem from "../StoryItem/StoryItem";
 
 export const StoryContext = React.createContext(null);
@@ -54,8 +54,7 @@ export default class App extends Component {
             {this.state.fetchComplete ? (
               <StoryItem />
             ) : (
-              // <Loader type="Grid" color="#somecolor" height={80} width={80} />
-              <p>LOADING...</p>
+              <Loader type="Triangle" color="orange" height={80} width={80} />
             )}
           </div>
         </StoryContext.Provider>

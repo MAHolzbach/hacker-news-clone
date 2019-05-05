@@ -1,3 +1,12 @@
-.story-div {
-  color: red;
+.stories__title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.stories__score {
+  margin-right: 12px;
+}
+
+.stories__poster {
+  margin: 0;
 }

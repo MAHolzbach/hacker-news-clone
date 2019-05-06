@@ -1,20 +1,25 @@
 import React, { useContext } from "react";
 import { StoryContext } from "../App/App";
 
-const StoryItem = () => {
+const StoryItem = props => {
   const context = useContext(StoryContext);
-  const storiesContent = context.stories.map(story => (
-    <>
-      <div className="stories__title-wrapper">
-        <strong className="stories__score">{story.score}</strong>
-        <a href={story.url}>
-          <h3>{story.title}</h3>
+  const setCurrentViewAndStoryId = context.setCurrentViewAndStoryId;
+  return (
+    <div
+      onClick={() => {
+        setCurrentViewAndStoryId("story", props.key);
+      }}
+      className="story"
+    >
+      <div className="story__title-wrapper">
+        <strong className="story__score">{props.score}</strong>
+        <a href={props.url}>
+          <h3>{props.title}</h3>
         </a>
       </div>
-      <p className="stories__poster">Posted by: {story.by}</p>
-    </>
-  ));
-  return <div className="story-div">{storiesContent}</div>;
+      <p className="story__poster">Posted by: {props.by}</p>
+    </div>
+  );
 };
 
 export default StoryItem;

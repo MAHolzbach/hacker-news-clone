@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
-import StoryItem from "../StoryItem/StoryItem";
+import ContentView from "../ContentView/ContentView";
 
 export const StoryContext = React.createContext(null);
 
@@ -12,7 +12,12 @@ export default class App extends Component {
     this.state = {
       stories: [],
       storyIds: [],
-      fetchComplete: false
+      fetchComplete: false,
+      currentView: "headlines",
+      storyId: null,
+      setCurrentViewAndStoryId: (currentView, storyId) => {
+        this.setState({ currentView, storyId });
+      }
     };
   }
 
@@ -46,17 +51,17 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.state.stories);
+    // console.log(this.state.stories);
     return (
       <>
         <StoryContext.Provider value={this.state}>
-          <div>
+          <>
             {this.state.fetchComplete ? (
-              <StoryItem />
+              <ContentView />
             ) : (
               <Loader type="Triangle" color="orange" height={80} width={80} />
             )}
-          </div>
+          </>
         </StoryContext.Provider>
       </>
     );

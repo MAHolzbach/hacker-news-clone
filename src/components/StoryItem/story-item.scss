@@ -1,12 +1,19 @@
-.stories__title-wrapper {
+.story {
+  margin-bottom: 12px;
+  background-color: #d3d3d3;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.story__title-wrapper {
   display: flex;
   align-items: center;
 }
 
-.stories__score {
+.story__score {
   margin-right: 12px;
 }
 
-.stories__poster {
+.story__poster {
   margin: 0;
 }

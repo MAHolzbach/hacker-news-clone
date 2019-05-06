@@ -1,1 +1,4 @@
 @import "./components/StoryItem/story-item.scss";
+@import "./components/Headlines/headlines.scss";
+@import "./components/ContentView/content-view.scss";
+@import "./components/SingleStory/single-story.scss";

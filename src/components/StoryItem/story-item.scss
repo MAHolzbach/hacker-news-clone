@@ -1,8 +1,9 @@
 .story {
-  margin-bottom: 12px;
-  background-color: #d3d3d3;
-  border: 1px solid black;
   cursor: pointer;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  vertical-align: middle;
 }
 
 .story__title-wrapper {
@@ -10,10 +11,21 @@
   align-items: center;
 }
 
-.story__score {
-  margin-right: 12px;
+.story__link {
+  text-decoration: none;
+  line-height: 0;
+  color: black;
+  font-weight: 400;
 }
 
-.story__poster {
-  margin: 0;
+.story__index {
+  font-weight: 400;
+  color: #828282;
+  margin: 0 2px 0 0;
+}
+
+.story__info {
+  font-size: 9px;
+  color: #828282;
+  margin: 0 0 0 15px;
 }

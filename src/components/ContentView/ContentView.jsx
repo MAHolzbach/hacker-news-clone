@@ -7,7 +7,17 @@ const ContentView = () => {
   const context = useContext(StoryContext);
   const currentView = context.currentView;
 
-  return <>{currentView === "headlines" ? <Headlines /> : <SingleStory />}</>;
+  return (
+    <>
+      {currentView === "headlines" ? (
+        <div className="headlines__wrapper">
+          <Headlines />
+        </div>
+      ) : (
+        <SingleStory />
+      )}
+    </>
+  );
 };
 
 export default ContentView;

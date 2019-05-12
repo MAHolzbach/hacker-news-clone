@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import Header from "../Header/Header";
 import ContentView from "../ContentView/ContentView";
@@ -16,10 +16,11 @@ export default class App extends Component {
       storyIds: [],
       fetchComplete: false,
       currentView: "headlines",
-      page: null,
+      numberOfPages: null,
+      currentPage: null,
       storyId: null,
-      setPage: () => {
-        this.setPage();
+      setCurrentPage: () => {
+        this.setCurrentPage();
       },
       setCurrentViewAndStoryId: (currentView, storyId) => {
         this.setState({ currentView, storyId });
@@ -35,10 +36,19 @@ export default class App extends Component {
       await axios
         .get("https://hacker-news.firebaseio.com/v0/topstories.json")
         .then(response => {
-          this.setState({ storyIds: response.data });
+          this.setState({
+            storyIds: response.data,
+            numberOfPages: Math.ceil(response.data.length / 30),
+            currentPage: this.setCurrentPage()
+          });
         })
         .then(() => {
-          const storiesToFetch = this.state.storyIds.slice(0, 30);
+          let startingPoint =
+            this.state.currentPage === 1 ? 0 : this.state.currentPage * 30;
+          const storiesToFetch = this.state.storyIds.slice(
+            startingPoint,
+            startingPoint * 30 + 30
+          );
           const fetchStories = async () => {
             await storiesToFetch.forEach(storyId => {
               axios
@@ -59,14 +69,16 @@ export default class App extends Component {
     fetchStoryIds();
   }
 
-  setPage() {}
+  setCurrentPage() {
+    let urlArray = window.location.href.split("=");
+    return parseInt(urlArray[1]);
+  }
 
   showNextThirtyStories() {
     console.log("DDERP");
   }
 
   render() {
-    // console.log(this.state.stories);
     return (
       <>
         <StoryContext.Provider value={this.state}>
@@ -74,9 +86,13 @@ export default class App extends Component {
             <Header />
             {this.state.fetchComplete ? (
               <>
-                <Route exact path="/" component={ContentView} />
                 <Route
-                  path={`page-${this.state.page}`}
+                  exact
+                  path="/"
+                  render={() => <Redirect to="/page=1" />}
+                />
+                <Route
+                  path={`/page=${this.state.currentPage}`}
                   component={ContentView}
                 />
               </>

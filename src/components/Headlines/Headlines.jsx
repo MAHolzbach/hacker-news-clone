@@ -18,8 +18,9 @@ const Headlines = () => {
   ));
   return (
     <>
-      {storiesContent}{" "}
+      {storiesContent}
       <p
+        className="headlines__more-link"
         onClick={() => {
           showNextThirtyStories();
         }}

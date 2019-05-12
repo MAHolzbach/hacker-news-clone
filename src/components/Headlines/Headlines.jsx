@@ -6,7 +6,7 @@ const Headlines = () => {
   const context = useContext(StoryContext);
   const storiesContent = context.stories.map((story, index) => (
     <StoryItem
-      index={index}
+      index={index + 1}
       id={story.id}
       score={story.score}
       url={story.url}

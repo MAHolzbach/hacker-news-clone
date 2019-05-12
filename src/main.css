@@ -2,3 +2,10 @@
 @import "./components/Headlines/headlines.scss";
 @import "./components/ContentView/content-view.scss";
 @import "./components/SingleStory/single-story.scss";
+@import "./components/Header/header.scss";
+
+#root {
+  max-width: 85%;
+  margin: 0 auto;
+  font-family: Verdana, Geneva, sans-serif;
+}

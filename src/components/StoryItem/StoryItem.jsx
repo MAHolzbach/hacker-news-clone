@@ -7,17 +7,20 @@ const StoryItem = props => {
   return (
     <div
       onClick={() => {
-        setCurrentViewAndStoryId("story", props.key);
+        setCurrentViewAndStoryId("story", props.id);
       }}
       className="story"
     >
       <div className="story__title-wrapper">
-        <strong className="story__score">{props.score}</strong>
-        <a href={props.url}>
-          <h3>{props.title}</h3>
+        <p className="story__index">{props.index}.</p>
+        <a className="story__link" href={props.url}>
+          <p>{props.title}</p>
         </a>
       </div>
-      <p className="story__poster">Posted by: {props.by}</p>
+      <p className="story__info">
+        {props.score} points by {props.by} 2 hours ago | hide |{" "}
+        {props.commentCount > 0 ? props.commentCount : 0} comments
+      </p>
     </div>
   );
 };

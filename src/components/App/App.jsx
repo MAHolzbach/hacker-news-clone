@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Loader from "react-loader-spinner";
+import Header from "../Header/Header";
 import ContentView from "../ContentView/ContentView";
 
 export const StoryContext = React.createContext(null);
@@ -56,6 +57,7 @@ export default class App extends Component {
       <>
         <StoryContext.Provider value={this.state}>
           <>
+            <Header />
             {this.state.fetchComplete ? (
               <ContentView />
             ) : (

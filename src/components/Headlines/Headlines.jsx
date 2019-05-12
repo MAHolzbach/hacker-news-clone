@@ -4,6 +4,7 @@ import StoryItem from "../StoryItem/StoryItem";
 
 const Headlines = () => {
   const context = useContext(StoryContext);
+  const showNextThirtyStories = context.showNextThirtyStories;
   const storiesContent = context.stories.map((story, index) => (
     <StoryItem
       index={index + 1}
@@ -15,7 +16,18 @@ const Headlines = () => {
       commentCount={story.kids ? story.kids.length : 0}
     />
   ));
-  return <>{storiesContent}</>;
+  return (
+    <>
+      {storiesContent}{" "}
+      <p
+        onClick={() => {
+          showNextThirtyStories();
+        }}
+      >
+        More
+      </p>
+    </>
+  );
 };
 
 export default Headlines;

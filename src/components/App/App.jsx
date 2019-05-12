@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Route } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import Header from "../Header/Header";
 import ContentView from "../ContentView/ContentView";
@@ -15,9 +16,16 @@ export default class App extends Component {
       storyIds: [],
       fetchComplete: false,
       currentView: "headlines",
+      page: null,
       storyId: null,
+      setPage: () => {
+        this.setPage();
+      },
       setCurrentViewAndStoryId: (currentView, storyId) => {
         this.setState({ currentView, storyId });
+      },
+      showNextThirtyStories: () => {
+        this.showNextThirtyStories();
       }
     };
   }
@@ -51,6 +59,12 @@ export default class App extends Component {
     fetchStoryIds();
   }
 
+  setPage() {}
+
+  showNextThirtyStories() {
+    console.log("DDERP");
+  }
+
   render() {
     // console.log(this.state.stories);
     return (
@@ -59,7 +73,13 @@ export default class App extends Component {
           <>
             <Header />
             {this.state.fetchComplete ? (
-              <ContentView />
+              <>
+                <Route exact path="/" component={ContentView} />
+                <Route
+                  path={`page-${this.state.page}`}
+                  component={ContentView}
+                />
+              </>
             ) : (
               <Loader type="Triangle" color="orange" height={80} width={80} />
             )}

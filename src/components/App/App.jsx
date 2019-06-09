@@ -14,6 +14,7 @@ export default class App extends Component {
     this.state = {
       stories: [],
       storyIds: [],
+      storyDisplayNumbers: [],
       fetchComplete: false,
       currentView: "headlines",
       numberOfPages: null,
@@ -32,41 +33,47 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    const fetchStoryIds = async () => {
-      await axios
-        .get("https://hacker-news.firebaseio.com/v0/topstories.json")
+    this.fetchStoryIds();
+  }
+
+  async fetchStories() {
+    let startingPoint =
+      this.state.currentPage === 1 ? 0 : this.state.currentPage * 30 - 30;
+    let storyNumberIndex = startingPoint + 1;
+    const storiesToFetch = this.state.storyIds.slice(
+      startingPoint,
+      startingPoint + 30
+    );
+
+    await storiesToFetch.forEach((storyId, index) => {
+      axios
+        .get(`https://hacker-news.firebaseio.com/v0/item/${storyId}.json`)
         .then(response => {
           this.setState({
-            storyIds: response.data,
-            numberOfPages: Math.ceil(response.data.length / 30),
-            currentPage: this.setCurrentPage()
+            stories: [...this.state.stories, response.data],
+            storyDisplayNumbers: [
+              ...this.state.storyDisplayNumbers,
+              storyNumberIndex++
+            ]
           });
-        })
-        .then(() => {
-          let startingPoint =
-            this.state.currentPage === 1 ? 0 : this.state.currentPage * 30;
-          const storiesToFetch = this.state.storyIds.slice(
-            startingPoint,
-            startingPoint * 30 + 30
-          );
-          const fetchStories = async () => {
-            await storiesToFetch.forEach(storyId => {
-              axios
-                .get(
-                  `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`
-                )
-                .then(response => {
-                  this.setState({
-                    stories: [...this.state.stories, response.data]
-                  });
-                });
-            });
-            this.setState({ fetchComplete: true });
-          };
-          fetchStories();
         });
-    };
-    fetchStoryIds();
+    });
+    this.setState({ fetchComplete: true });
+  }
+
+  async fetchStoryIds() {
+    await axios
+      .get("https://hacker-news.firebaseio.com/v0/topstories.json")
+      .then(response => {
+        this.setState({
+          storyIds: response.data,
+          numberOfPages: Math.ceil(response.data.length / 30),
+          currentPage: this.setCurrentPage()
+        });
+      })
+      .then(() => {
+        this.fetchStories();
+      });
   }
 
   setCurrentPage() {

@@ -4,6 +4,7 @@ import { StoryContext } from "../App/App";
 const StoryItem = props => {
   const context = useContext(StoryContext);
   const setCurrentViewAndStoryId = context.setCurrentViewAndStoryId;
+
   return (
     <div
       onClick={() => {
@@ -12,7 +13,7 @@ const StoryItem = props => {
       className="story"
     >
       <div className="story__title-wrapper">
-        <p className="story__index">{props.index}.</p>
+        <p className="story__index">{props.storyNumber}.</p>
         <a className="story__link" href={props.url}>
           <p>{props.title}</p>
         </a>

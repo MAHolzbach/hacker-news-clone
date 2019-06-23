@@ -33,18 +33,11 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    console.log("MOUNT");
     this.fetchStoryIds();
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.userID !== prevProps.userID) {
-      this.fetchData(this.props.userID);
-    }
-  }
-
   async fetchStories() {
+    this.setState({ stories: [] });
     let startingPoint =
       this.state.currentPage === 1 ? 0 : this.state.currentPage * 30 - 30;
     let storyNumberIndex = startingPoint + 1;
@@ -90,7 +83,10 @@ export default class App extends Component {
   }
 
   showNextThirtyStories() {
-    this.fetchStories();
+    this.setState({ currentPage: this.state.currentPage + 1 }, () => {
+      console.log(this.state.currentPage);
+      this.fetchStories();
+    });
   }
 
   render() {

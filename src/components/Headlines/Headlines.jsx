@@ -24,15 +24,15 @@ const Headlines = () => {
   return (
     <>
       {storiesContent}
-      <NavLink to={`/page=${currentPage + 1}`}>More</NavLink>
-      {/* <p
+      {/* <NavLink to={`/page=${currentPage + 1}`}>More</NavLink> */}
+      <p
         className="headlines__more-link"
         onClick={() => {
           showNextThirtyStories();
         }}
       >
         More
-      </p> */}
+      </p>
     </>
   );
 };

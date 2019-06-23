@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StoryContext } from "../App/App";
 
-export default function Header() {
+const Header = () => {
+  const context = useContext(StoryContext);
+  const setCurrentPage = context.setCurrentPage;
   return (
     <div className="header__wrapper">
-      <a href="#" className="header__logo">
+      <a href="#" className="header__logo" onClick={() => setCurrentPage(1)}>
         <img src="https://news.ycombinator.com/y18.gif" alt="YC logo" />
       </a>
       <p className="header__link header__home">Hacker News</p>
@@ -16,4 +19,6 @@ export default function Header() {
       <p className="header__link header__submit">submit</p>
     </div>
   );
-}
+};
+
+export default Header;

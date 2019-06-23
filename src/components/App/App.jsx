@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Route, Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import Header from "../Header/Header";
 import ContentView from "../ContentView/ContentView";
@@ -18,16 +17,16 @@ export default class App extends Component {
       fetchComplete: false,
       currentView: "headlines",
       numberOfPages: null,
-      currentPage: null,
+      currentPage: 1,
       storyId: null,
-      setCurrentPage: () => {
-        this.setCurrentPage();
-      },
       setCurrentViewAndStoryId: (currentView, storyId) => {
         this.setState({ currentView, storyId });
       },
       showNextThirtyStories: () => {
         this.showNextThirtyStories();
+      },
+      setCurrentPage: number => {
+        this.setCurrentPage(number);
       }
     };
   }
@@ -37,7 +36,7 @@ export default class App extends Component {
   }
 
   async fetchStories() {
-    this.setState({ stories: [] });
+    this.setState({ stories: [], storyDisplayNumbers: [] });
     let startingPoint =
       this.state.currentPage === 1 ? 0 : this.state.currentPage * 30 - 30;
     let storyNumberIndex = startingPoint + 1;
@@ -68,8 +67,7 @@ export default class App extends Component {
       .then(response => {
         this.setState({
           storyIds: response.data,
-          numberOfPages: Math.ceil(response.data.length / 30),
-          currentPage: this.setCurrentPage()
+          numberOfPages: Math.ceil(response.data.length / 30)
         });
       })
       .then(() => {
@@ -77,13 +75,14 @@ export default class App extends Component {
       });
   }
 
-  setCurrentPage() {
-    let urlArray = window.location.href.split("=");
-    return parseInt(urlArray[1]);
-  }
-
   showNextThirtyStories() {
     this.setState({ currentPage: this.state.currentPage + 1 }, () => {
+      this.fetchStories();
+    });
+  }
+
+  setCurrentPage(number) {
+    this.setState({ currentPage: number }, () => {
       this.fetchStories();
     });
   }
@@ -97,17 +96,6 @@ export default class App extends Component {
             {this.state.fetchComplete ? (
               <ContentView />
             ) : (
-              // <>
-              //   <Route
-              //     exact
-              //     path="/"
-              //     render={() => <Redirect to="/page=1" />}
-              //   />
-              //   <Route
-              //     path={`/page=${this.state.currentPage}`}
-              //     component={ContentView}
-              //   />
-              // </>
               <Loader type="Triangle" color="orange" height={80} width={80} />
             )}
           </>

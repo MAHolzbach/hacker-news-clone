@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useContext } from "react";
 import { StoryContext } from "../App/App";
 import StoryItem from "../StoryItem/StoryItem";
 
@@ -7,7 +6,6 @@ const Headlines = () => {
   const context = useContext(StoryContext);
   const storyDisplayNumbers = context.storyDisplayNumbers;
   const showNextThirtyStories = context.showNextThirtyStories;
-  const currentPage = context.currentPage;
   const storiesContent = context.stories.map((story, index) => (
     <StoryItem
       index={index + 1}
@@ -18,17 +16,13 @@ const Headlines = () => {
       title={story.title}
       by={story.by}
       commentCount={story.kids ? story.kids.length : 0}
+      key={story.id}
     />
   ));
-
-  useEffect(() => {
-    console.log(context.stories);
-  }, []);
 
   return (
     <>
       {storiesContent}
-      {/* <NavLink to={`/page=${currentPage + 1}`}>More</NavLink> */}
       <p
         className="headlines__more-link"
         onClick={() => {

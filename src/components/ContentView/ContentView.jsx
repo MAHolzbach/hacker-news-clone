@@ -6,7 +6,6 @@ import SingleStory from "../SingleStory/SingleStory";
 const ContentView = () => {
   const context = useContext(StoryContext);
   const currentView = context.currentView;
-
   return (
     <>
       {currentView === "headlines" ? (

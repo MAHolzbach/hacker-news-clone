@@ -84,7 +84,6 @@ export default class App extends Component {
 
   showNextThirtyStories() {
     this.setState({ currentPage: this.state.currentPage + 1 }, () => {
-      console.log(this.state.currentPage);
       this.fetchStories();
     });
   }
@@ -96,18 +95,19 @@ export default class App extends Component {
           <>
             <Header />
             {this.state.fetchComplete ? (
-              <>
-                <Route
-                  exact
-                  path="/"
-                  render={() => <Redirect to="/page=1" />}
-                />
-                <Route
-                  path={`/page=${this.state.currentPage}`}
-                  component={ContentView}
-                />
-              </>
+              <ContentView />
             ) : (
+              // <>
+              //   <Route
+              //     exact
+              //     path="/"
+              //     render={() => <Redirect to="/page=1" />}
+              //   />
+              //   <Route
+              //     path={`/page=${this.state.currentPage}`}
+              //     component={ContentView}
+              //   />
+              // </>
               <Loader type="Triangle" color="orange" height={80} width={80} />
             )}
           </>

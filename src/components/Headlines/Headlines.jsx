@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { StoryContext } from "../App/App";
 import StoryItem from "../StoryItem/StoryItem";
 
@@ -6,6 +7,7 @@ const Headlines = () => {
   const context = useContext(StoryContext);
   const storyDisplayNumbers = context.storyDisplayNumbers;
   const showNextThirtyStories = context.showNextThirtyStories;
+  const currentPage = context.currentPage;
   const storiesContent = context.stories.map((story, index) => (
     <StoryItem
       index={index + 1}
@@ -22,14 +24,15 @@ const Headlines = () => {
   return (
     <>
       {storiesContent}
-      <p
+      <NavLink to={`/page=${currentPage + 1}`}>More</NavLink>
+      {/* <p
         className="headlines__more-link"
         onClick={() => {
           showNextThirtyStories();
         }}
       >
         More
-      </p>
+      </p> */}
     </>
   );
 };

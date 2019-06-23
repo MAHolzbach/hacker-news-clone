@@ -33,7 +33,15 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    console.log("MOUNT");
     this.fetchStoryIds();
+  }
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.userID !== prevProps.userID) {
+      this.fetchData(this.props.userID);
+    }
   }
 
   async fetchStories() {
@@ -82,7 +90,7 @@ export default class App extends Component {
   }
 
   showNextThirtyStories() {
-    console.log("DDERP");
+    this.fetchStories();
   }
 
   render() {

@@ -21,7 +21,7 @@ const Headlines = () => {
   ));
 
   return (
-    <>
+    <div className="content__wrapper">
       {storiesContent}
       <p
         className="headlines__more-link"
@@ -31,7 +31,7 @@ const Headlines = () => {
       >
         More
       </p>
-    </>
+    </div>
   );
 };
 

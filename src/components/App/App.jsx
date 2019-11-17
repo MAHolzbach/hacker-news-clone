@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { HashRouter, Route } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import Header from "../Header/Header";
-import ContentView from "../ContentView/ContentView";
+import Headlines from "../Headlines/Headlines";
+import SingleStory from "../SingleStory/SingleStory";
 
 export const StoryContext = React.createContext(null);
 
@@ -15,12 +17,11 @@ export default class App extends Component {
       storyIds: [],
       storyDisplayNumbers: [],
       fetchComplete: false,
-      currentView: "headlines",
       numberOfPages: null,
       currentPage: 1,
       storyId: null,
-      setCurrentViewAndStoryId: (currentView, storyId) => {
-        this.setState({ currentView, storyId });
+      setCurrentStoryId: storyId => {
+        this.setState({ storyId });
       },
       showNextThirtyStories: () => {
         this.showNextThirtyStories();
@@ -93,11 +94,18 @@ export default class App extends Component {
         <StoryContext.Provider value={this.state}>
           <>
             <Header />
-            {this.state.fetchComplete ? (
-              <ContentView />
-            ) : (
-              <Loader type="Triangle" color="orange" height={80} width={80} />
-            )}
+            <HashRouter>
+              {this.state.fetchComplete ? (
+                <Route exact path="/" component={Headlines}></Route>
+              ) : (
+                <Loader type="Triangle" color="orange" height={80} width={80} />
+              )}
+              <Route
+                exact
+                path={`/${this.state.storyId}`}
+                component={SingleStory}
+              ></Route>
+            </HashRouter>
           </>
         </StoryContext.Provider>
       </>

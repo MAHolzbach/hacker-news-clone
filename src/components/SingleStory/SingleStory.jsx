@@ -6,9 +6,9 @@ const SingleStory = () => {
   const currentStory = context.storyId;
 
   return (
-    <>
+    <div className="content__wrapper">
       <h1>Here be yer story: {currentStory}.</h1>
-    </>
+    </div>
   );
 };
 

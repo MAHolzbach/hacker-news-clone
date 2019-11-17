@@ -4,6 +4,7 @@
   font-weight: 400;
   line-height: normal;
   vertical-align: middle;
+  max-width: fit-content;
 }
 
 .story__title-wrapper {
@@ -18,14 +19,22 @@
   font-weight: 400;
 }
 
+.story__index,
+.story__info,
+.story__comments-link {
+  color: #828282;
+}
+
 .story__index {
   font-weight: 400;
-  color: #828282;
   margin: 0 2px 0 0;
 }
 
 .story__info {
   font-size: 9px;
-  color: #828282;
   margin: 0 0 0 15px;
+}
+
+.story__comments-link {
+  text-decoration: none;
 }

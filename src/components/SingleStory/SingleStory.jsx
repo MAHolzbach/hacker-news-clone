@@ -23,16 +23,20 @@ const SingleStory = () => {
   }, []);
 
   console.log("CURRENT STORY ==>", currentStoryData);
-  console.log("COMMENT DATA ==>", commentData);
+  // console.log("COMMENT DATA ==>", commentData);
 
   const fetchCommentData = story => {
     story.kids.forEach(commentId => {
       axios
         .get(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json`)
-        .then(response =>
-          setCommentData(commentData => [...commentData, response.data])
-        )
-        .then(() => console.log(commentData));
+        .then(response => {
+          response.data.kids
+            ? (console.log("KIDS", response.data),
+              fetchCommentData(response.data))
+            : console.log("NO KIDS", response.data);
+        });
+      // setCommentData(commentData => [...commentData, response.data])
+      // .then(() => console.log("HERE", commentData));
     });
   };
 

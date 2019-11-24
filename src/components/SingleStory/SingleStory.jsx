@@ -2,10 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { StoryContext } from "../App/App";
 import { Comment } from "../Comment/Comment";
+import Loader from "react-loader-spinner";
 
 const SingleStory = () => {
   const [currentStoryData, setCurrentStoryData] = useState({});
-  const [commentData, setCommentData] = useState([]);
+  const [fetchComplete, setFetchComplete] = useState(false);
   const context = useContext(StoryContext);
   const storyArray = context.stories;
   const currentStoryId = context.storyId;
@@ -22,21 +23,20 @@ const SingleStory = () => {
     })();
   }, []);
 
-  console.log("CURRENT STORY ==>", currentStoryData);
-  // console.log("COMMENT DATA ==>", commentData);
+  // console.log("CURRENT STORY ==>", currentStoryData);
 
-  const fetchCommentData = story => {
-    story.kids.forEach(commentId => {
+  const fetchCommentData = async item => {
+    let idArray = item.kids;
+    idArray.forEach((id, index) => {
       axios
-        .get(`https://hacker-news.firebaseio.com/v0/item/${commentId}.json`)
+        .get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
         .then(response => {
-          response.data.kids
-            ? (console.log("KIDS", response.data),
-              fetchCommentData(response.data))
-            : console.log("NO KIDS", response.data);
-        });
-      // setCommentData(commentData => [...commentData, response.data])
-      // .then(() => console.log("HERE", commentData));
+          idArray[index] = response.data;
+          if (response.data.kids) {
+            fetchCommentData(response.data);
+          }
+        })
+        .then(() => setFetchComplete(true));
     });
   };
 
@@ -54,9 +54,19 @@ const SingleStory = () => {
         comments
       </p>
       <div>
-        {commentData.map(comment => {
-          return <Comment key={comment.id} comment={comment} />;
-        })}
+        {fetchComplete ? (
+          (console.log(currentStoryData),
+          currentStoryData.kids.map(item => {
+            console.log(item);
+            return <Comment key={item.id} item={item} />;
+          }))
+        ) : (
+          <Loader type="Triangle" color="orange" height={80} width={80} />
+        )}
+
+        {/* {currentStoryData.map(item => {
+          return <Comment key={item.id} item={item} />;
+        })} */}
       </div>
     </div>
   );

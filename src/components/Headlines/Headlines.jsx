@@ -10,12 +10,13 @@ const Headlines = () => {
     <StoryItem
       index={index + 1}
       id={story.id}
+      time={story.time}
       storyNumber={storyDisplayNumbers[index]}
       score={story.score}
       url={story.url}
       title={story.title}
       by={story.by}
-      commentCount={story.kids ? story.kids.length : 0}
+      commentCount={story.descendants}
       key={story.id}
     />
   ));

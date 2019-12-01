@@ -3,6 +3,7 @@ import axios from "axios";
 import { StoryContext } from "../App/App";
 import { Comment } from "../Comment/Comment";
 import Loader from "react-loader-spinner";
+import moment from "moment";
 
 const SingleStory = () => {
   const [currentStoryData, setCurrentStoryData] = useState({});
@@ -52,15 +53,13 @@ const SingleStory = () => {
         </a>
       </div>
       <p className="story__info">
-        {currentStoryData.score} points by {currentStoryData.by} 2 hours ago |
-        hide |{" "}
-        {currentStoryData.commentCount > 0 ? currentStoryData.commentCount : 0}{" "}
-        comments
+        {currentStoryData.score} points by {currentStoryData.by}{" "}
+        {moment(currentStoryData.time * 1000).fromNow()} | hide |{" "}
+        {currentStoryData.descendants} comments
       </p>
       <div>
         {fetchComplete ? (
           currentStoryData.kids.map(item => {
-            console.log("ITEM:", item);
             return <Comment key={item.id} comment={item} />;
           })
         ) : (

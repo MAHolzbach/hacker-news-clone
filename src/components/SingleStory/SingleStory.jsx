@@ -23,9 +23,9 @@ const SingleStory = () => {
     })();
   }, []);
 
-  // console.log("CURRENT STORY ==>", currentStoryData);
+  console.log("CURRENT STORY ==>", currentStoryData);
 
-  const fetchCommentData = async item => {
+  const fetchCommentData = item => {
     let idArray = item.kids;
     idArray.forEach((id, index) => {
       axios
@@ -36,7 +36,11 @@ const SingleStory = () => {
             fetchCommentData(response.data);
           }
         })
-        .then(() => setFetchComplete(true));
+        .then(() =>
+          setTimeout(() => {
+            setFetchComplete(true);
+          }, 2000)
+        );
     });
   };
 
@@ -55,18 +59,13 @@ const SingleStory = () => {
       </p>
       <div>
         {fetchComplete ? (
-          (console.log(currentStoryData),
           currentStoryData.kids.map(item => {
-            console.log(item);
-            return <Comment key={item.id} item={item} />;
-          }))
+            console.log("ITEM:", item);
+            return <Comment key={item.id} comment={item} />;
+          })
         ) : (
           <Loader type="Triangle" color="orange" height={80} width={80} />
         )}
-
-        {/* {currentStoryData.map(item => {
-          return <Comment key={item.id} item={item} />;
-        })} */}
       </div>
     </div>
   );

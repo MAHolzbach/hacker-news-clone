@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { HashRouter, Route } from "react-router-dom";
+import { HashRouter, Route, Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import Header from "../Header/Header";
 import Headlines from "../Headlines/Headlines";
@@ -96,7 +96,13 @@ export default class App extends Component {
             <Header />
             <HashRouter>
               {this.state.fetchComplete ? (
-                <Route exact path="/" component={Headlines}></Route>
+                <>
+                  <Route exact path="/" component={Headlines} />
+                  <Route
+                    path={`/${this.state.currentPage}`}
+                    component={Headlines}
+                  ></Route>
+                </>
               ) : (
                 <Loader type="Triangle" color="orange" height={80} width={80} />
               )}

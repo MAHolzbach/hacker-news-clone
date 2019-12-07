@@ -23,9 +23,6 @@ export default class App extends Component {
       setCurrentStoryId: storyId => {
         this.setState({ storyId });
       },
-      showNextThirtyStories: () => {
-        this.showNextThirtyStories();
-      },
       setCurrentPage: number => {
         this.setCurrentPage(number);
       }
@@ -74,12 +71,6 @@ export default class App extends Component {
       .then(() => {
         this.fetchStories();
       });
-  }
-
-  showNextThirtyStories() {
-    this.setState({ currentPage: this.state.currentPage + 1 }, () => {
-      this.fetchStories();
-    });
   }
 
   setCurrentPage(number) {

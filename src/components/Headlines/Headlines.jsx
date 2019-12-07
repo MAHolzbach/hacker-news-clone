@@ -7,7 +7,7 @@ const Headlines = () => {
   const context = useContext(StoryContext);
   const currentPage = context.currentPage;
   const storyDisplayNumbers = context.storyDisplayNumbers;
-  const showNextThirtyStories = context.showNextThirtyStories;
+  const setCurrentPage = context.setCurrentPage;
   const storiesContent = context.stories.map((story, index) => (
     <StoryItem
       index={index + 1}
@@ -26,19 +26,11 @@ const Headlines = () => {
   return (
     <div className="content__wrapper">
       {storiesContent}
-      {/* <p
-        className="headlines__more-link"
-        onClick={() => {
-          showNextThirtyStories();
-        }}
-        >
-        More
-      </p> */}
       <Link
         className="headlines__more-link"
         to={`/${currentPage + 1}`}
         onClick={() => {
-          showNextThirtyStories();
+          setCurrentPage(currentPage + 1);
         }}
       >
         More

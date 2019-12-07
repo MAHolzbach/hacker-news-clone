@@ -46,7 +46,7 @@ export default class App extends Component {
       startingPoint + 30
     );
 
-    await storiesToFetch.forEach((storyId, index) => {
+    await storiesToFetch.forEach(storyId => {
       axios
         .get(`https://hacker-news.firebaseio.com/v0/item/${storyId}.json`)
         .then(response => {

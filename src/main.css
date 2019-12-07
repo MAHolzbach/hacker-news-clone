@@ -1,6 +1,7 @@
 @import "./components/StoryItem/story-item.scss";
 @import "./components/Headlines/headlines.scss";
 @import "./components/SingleStory/single-story.scss";
+@import "./components/Comment/comment.scss";
 @import "./components/Header/header.scss";
 
 #root {

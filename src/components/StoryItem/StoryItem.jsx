@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { StoryContext } from "../App/App";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const StoryItem = props => {
   const context = useContext(StoryContext);
@@ -20,9 +21,10 @@ const StoryItem = props => {
         </a>
       </div>
       <p className="story__info">
-        {props.score} points by {props.by} 2 hours ago | hide |{" "}
+        {props.score} points by {props.by} {moment(props.time * 1000).fromNow()}{" "}
+        | hide |{" "}
         <Link to={`/${props.id}`} className="story__comments-link">
-          {props.commentCount > 0 ? props.commentCount : 0} comments
+          {props.commentCount} comments
         </Link>
       </p>
     </div>

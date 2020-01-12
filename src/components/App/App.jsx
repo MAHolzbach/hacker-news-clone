@@ -31,30 +31,24 @@ export default class App extends Component {
 
   componentDidMount() {
     this.fetchStoryIds();
+    window.onpopstate = () => {
+      console.log("BROWSER NAV");
+    };
   }
 
   async fetchStories() {
     this.setState({ stories: [], storyDisplayNumbers: [] });
-    let startingPoint =
-      this.state.currentPage === 1 ? 0 : this.state.currentPage * 30 - 30;
+    let startingPoint = this.state.currentPage === 1 ? 0 : this.state.currentPage * 30 - 30;
     let storyNumberIndex = startingPoint + 1;
-    const storiesToFetch = this.state.storyIds.slice(
-      startingPoint,
-      startingPoint + 30
-    );
+    const storiesToFetch = this.state.storyIds.slice(startingPoint, startingPoint + 30);
 
     await storiesToFetch.forEach(storyId => {
-      axios
-        .get(`https://hacker-news.firebaseio.com/v0/item/${storyId}.json`)
-        .then(response => {
-          this.setState({
-            stories: [...this.state.stories, response.data],
-            storyDisplayNumbers: [
-              ...this.state.storyDisplayNumbers,
-              storyNumberIndex++
-            ]
-          });
+      axios.get(`https://hacker-news.firebaseio.com/v0/item/${storyId}.json`).then(response => {
+        this.setState({
+          stories: [...this.state.stories, response.data],
+          storyDisplayNumbers: [...this.state.storyDisplayNumbers, storyNumberIndex++]
         });
+      });
     });
     this.setState({ fetchComplete: true });
   }
@@ -89,19 +83,12 @@ export default class App extends Component {
               {this.state.fetchComplete ? (
                 <>
                   <Route exact path="/" component={Headlines} />
-                  <Route
-                    path={`/${this.state.currentPage}`}
-                    component={Headlines}
-                  ></Route>
+                  <Route path={`/${this.state.currentPage}`} component={Headlines}></Route>
                 </>
               ) : (
                 <Loader type="Triangle" color="orange" height={80} width={80} />
               )}
-              <Route
-                exact
-                path={`/${this.state.storyId}`}
-                component={SingleStory}
-              ></Route>
+              <Route exact path={`/${this.state.storyId}`} component={SingleStory}></Route>
             </HashRouter>
           </>
         </StoryContext.Provider>
